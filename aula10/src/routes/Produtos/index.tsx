@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MinhaTabela } from "../../style/styled";
 import { TipoProduto } from "../../types";
+import { Link } from "react-router-dom";
 
 export default function Produtos() {
 
@@ -45,7 +46,7 @@ export default function Produtos() {
                         <tr key={p.id}>
                             <td>{p.nome}</td>
                             <td>{p.preco}</td>
-                            <td><button>Editar</button></td>
+                            <td> <Link to={`/editar/produtos/${p.id}`}>Editar</Link> </td>
                         </tr>
                     ))}
                 </tbody>
