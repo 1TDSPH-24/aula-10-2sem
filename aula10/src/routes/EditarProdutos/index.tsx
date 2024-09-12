@@ -28,7 +28,21 @@ export default function EditarProdutos() {
     return (
         <div>
             <h1>Editar Produtos - {id}</h1>
-            <p>NOME : {produto.nome}</p>
+            <div>
+                <form>
+                    <div>
+                        <label>Nome:</label>
+                        <input type="text" name="nome" value={produto?.nome} onChange={(e)=>setProduto({...produto, nome : e.target.value})}/>
+                    </div>
+                    <div>
+                        <label>Preço:</label>
+                        <input type="number" name="preco" value={produto?.preco} onChange={(e)=>setProduto({...produto, preco : parseFloat(e.target.value)})}/>
+                    </div>
+                    <div>
+                        <button type="submit">Editar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
