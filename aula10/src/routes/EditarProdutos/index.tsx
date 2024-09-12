@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TipoProduto } from "../../types";
 
 export default function EditarProdutos() {
+
+    const listaDeProdutosString = localStorage.getItem('lista') || '[]';
+    const lista:TipoProduto[] = JSON.parse(listaDeProdutosString);
+
+    const navigate = useNavigate();
 
     const {id} = useParams();
     
@@ -14,22 +19,33 @@ export default function EditarProdutos() {
 
     useEffect(() => {
         
-        const listaDeProdutosString = localStorage.getItem('lista') || '[]';
-        const lista:TipoProduto[] = JSON.parse(listaDeProdutosString);
-
         const objSelecionado = lista.find(p=> p.id == Number(id))
 
         if(objSelecionado){
             setProduto(objSelecionado);
         }
 
-    }, [])
+    }, []);
+
+    const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      if(produto){
+        let indiceProduto = lista.findIndex( p => p.id == produto.id );
+        lista.splice(indiceProduto,1,produto);
+        localStorage.setItem('lista', JSON.stringify(lista));
+        alert('Produto editado com sucesso!');
+        navigate('/produtos');
+
+      }
+
+    }
     
     return (
         <div>
             <h1>Editar Produtos - {id}</h1>
             <div>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div>
                         <label>Nome:</label>
                         <input type="text" name="nome" value={produto?.nome} onChange={(e)=>setProduto({...produto, nome : e.target.value})}/>
